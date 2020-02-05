@@ -151,4 +151,7 @@ def configure_package_manager(package_management: PackageManagement) -> List[str
     for repository in package_management.repositories:
         _install_repository(repository)
 
+    # Ensure repository cache is updated.
+    Repo.refresh_build_packages()
+
     return installed_tools

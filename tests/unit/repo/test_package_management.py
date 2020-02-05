@@ -450,7 +450,7 @@ class ConfigurePackageManagerTests(unit.TestCase):
     @patch(
         "snapcraft.internal.repo.package_management.OsRelease.id", return_value="ubuntu"
     )
-    @patch("snapcraft.internal.repo.package_management.Repo.install_build_packages")
+    @patch("snapcraft.internal.repo.package_management.Repo")
     @patch("snapcraft.internal.repo.package_management.run")
     def test_ubuntu_with_repos(self, mock_run, mock_repo, mock_id):
         package_management.configure_package_manager(
@@ -464,7 +464,12 @@ class ConfigurePackageManagerTests(unit.TestCase):
 
         self.assertThat(
             mock_repo.mock_calls,
-            Equals([call.install_build_packages(["software-properties-common"])]),
+            Equals(
+                [
+                    call.install_build_packages(["software-properties-common"]),
+                    call.refresh_build_packages(),
+                ]
+            ),
         )
         self.assertThat(
             mock_run.mock_calls,
