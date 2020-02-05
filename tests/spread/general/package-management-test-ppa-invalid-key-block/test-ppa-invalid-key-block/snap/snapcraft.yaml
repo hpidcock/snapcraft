@@ -1,4 +1,4 @@
-name: test-ppa-with-invalid-key-block
+name: test-ppa-invalid-key-block
 version: 'test1'
 summary: test
 description: test

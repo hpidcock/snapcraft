@@ -29,4 +29,4 @@ execute: |
     echo "snapcraft should have exited with error: $output"
     exit 1
   fi
-  echo "$output" | MATCH "The following signatures couldn't be verified"
+  echo "$output" | MATCH "Error adding repository key"
