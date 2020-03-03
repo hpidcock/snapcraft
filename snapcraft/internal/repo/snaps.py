@@ -109,7 +109,8 @@ class SnapPackage:
             # infrastructure. Given that constraint, we add some retry
             # logic.
             retry_count = 5
-            while retry_count > 0:
+            while True:
+                retry_count -= 1
                 try:
                     self._store_snap_info = _get_store_snap_info(self.name)
                     break
@@ -124,7 +125,11 @@ class SnapPackage:
                         raise errors.SnapUnavailableError(
                             snap_name=self.name, snap_channel=self.channel
                         )
-                    retry_count -= 1
+                    if retry_count == 0:
+                        raise http_error
+                except Exception as e:
+                    if retry_count == 0:
+                        raise e
 
         return self._store_snap_info
 
